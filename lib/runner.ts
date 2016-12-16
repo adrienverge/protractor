@@ -206,8 +206,14 @@ export class Runner extends EventEmitter {
     var config = this.config_;
     var driver = this.driverprovider_.getNewDriver();
 
+    let blockingProxyUrl: string;
+    if (config.useBlockingProxy) {
+      blockingProxyUrl = this.driverprovider_.getBPUrl();
+    }
+
     var browser_ = new ProtractorBrowser(
-        driver, config.baseUrl, config.rootElement, config.untrackOutstandingTimeouts);
+        driver, config.baseUrl, config.rootElement, config.untrackOutstandingTimeouts,
+        blockingProxyUrl);
 
     browser_.params = config.params;
     if (plugins) {
